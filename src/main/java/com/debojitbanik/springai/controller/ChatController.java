@@ -2,6 +2,7 @@ package com.debojitbanik.springai.controller;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,9 @@ public class ChatController {
     public ChatController(ChatClient.Builder chatClientBuilder, ChatMemory chatMemory) {
         this.chatMemory = chatMemory;
         this.chatClient = chatClientBuilder
-                .defaultAdvisors(PromptChatMemoryAdvisor.builder(chatMemory).build())
+                .defaultAdvisors(
+                        PromptChatMemoryAdvisor.builder(chatMemory).build(),
+                        SimpleLoggerAdvisor.builder().build())
                 .build();
     }
 
