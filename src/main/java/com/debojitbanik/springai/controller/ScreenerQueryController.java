@@ -5,7 +5,7 @@ import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvi
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,9 +18,9 @@ import java.util.List;
 public class ScreenerQueryController {
 
     private final ChatClient chatClient;
-    @Autowired
+
     private final VectorStore vectorStore;
-    public ScreenerQueryController(ChatClient.Builder chatClientBuilder, VectorStore vectorStore) {
+    public ScreenerQueryController(ChatClient.Builder chatClientBuilder, @Qualifier("pineconeStore") VectorStore vectorStore) {
         this.vectorStore = vectorStore;
         this.chatClient = chatClientBuilder.build();
     }
