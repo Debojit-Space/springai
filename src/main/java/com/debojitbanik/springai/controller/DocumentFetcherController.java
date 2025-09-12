@@ -18,7 +18,7 @@ public class DocumentFetcherController {
 
     private final VectorStore vectorStore;
 
-    public DocumentFetcherController(@Qualifier("localStore") VectorStore vectorStore) {
+    public DocumentFetcherController(@Qualifier("localStoreOpenAiEmbedding") VectorStore vectorStore) {
         this.vectorStore = vectorStore;
     }
 

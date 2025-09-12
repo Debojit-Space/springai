@@ -1,4 +1,4 @@
-package com.debojitbanik.springai;
+package com.debojitbanik.springai.config;
 
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.vectorstore.pinecone.PineconeVectorStore;
