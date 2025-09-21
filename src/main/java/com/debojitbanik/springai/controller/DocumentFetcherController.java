@@ -18,7 +18,7 @@ public class DocumentFetcherController {
 
     private final VectorStore vectorStore;
 
-    public DocumentFetcherController(@Qualifier("localStoreOpenAiEmbedding") VectorStore vectorStore) {
+    public DocumentFetcherController(@Qualifier("localStoreOllamaEmbedding") VectorStore vectorStore) {
         this.vectorStore = vectorStore;
     }
 
@@ -30,12 +30,11 @@ public class DocumentFetcherController {
 
     @GetMapping("/movies")
     public List<Document> getDocument(@RequestParam String genre){
-        List<Document> results = vectorStore.similaritySearch(
+        return vectorStore.similaritySearch(
                 SearchRequest.builder().query(genre)
                         .topK(3)
                         .build()
         );
-        return results;
     }
 
     public List<Document> movielist(){
