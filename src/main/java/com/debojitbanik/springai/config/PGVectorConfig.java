@@ -32,4 +32,16 @@ public class PGVectorConfig {
                 .vectorTableName("moviesvectorstore")
                 .build();
     }
+
+    @Bean(name = "pdfVectorStore")
+    public VectorStore pdfVectorStore(JdbcTemplate jdbcTemplate, @Qualifier("ollamaEmbeddingModel") EmbeddingModel embeddingModel) {
+        return PgVectorStore.builder(jdbcTemplate, embeddingModel)
+                .dimensions(Integer.parseInt(dimensions))
+                .distanceType(PgVectorStore.PgDistanceType.valueOf(distanceType))
+                .indexType(PgVectorStore.PgIndexType.valueOf(indexType))
+                .initializeSchema(true)
+                .schemaName("public")
+                .vectorTableName("moviesvs")
+                .build();
+    }
 }
