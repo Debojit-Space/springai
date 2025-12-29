@@ -73,8 +73,6 @@
 			<groupId>org.springframework.ai</groupId>
 			<artifactId>spring-ai-tika-document-reader</artifactId>
 		</dependency>
-
-
 	</dependencies>
 	<profiles>
 		<profile>

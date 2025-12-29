@@ -3,6 +3,9 @@ package com.debojitbanik.springai.controller;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
+import org.springframework.ai.vectorstore.filter.Filter;
+import org.springframework.ai.vectorstore.filter.FilterExpressionBuilder;
+import org.springframework.ai.vectorstore.filter.FilterExpressionTextParser;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,9 +33,35 @@ public class DocumentFetcherController {
 
     @GetMapping("/movies")
     public List<Document> getDocument(@RequestParam String genre){
+
+        var parser = new FilterExpressionTextParser();
+        Filter.Expression exp1 = parser.parse("genre == 'Sci-Fi' && year <= 2000");
+        String exp2 = "genre == 'Sci-Fi' && year <= 2000";
+
+        FilterExpressionBuilder builder = new FilterExpressionBuilder();
+        Filter.Expression exp3 = builder.and(
+                builder.eq("genre", "Sci-Fi"),
+                builder.lte("year", 2000)
+        ).build();
+
+        Filter.Expression exp4 = builder.and(
+                builder.lte("year", 2010),
+                builder.in("genre", "Sci-Fi", "Action")
+        ).build();
+
+
+        FilterExpressionBuilder.Op op1 = builder.eq("title","The Shawshank Redemption");
+        FilterExpressionBuilder.Op op2 = builder.and(
+                builder.lte("year", 2010),
+                builder.in("genre", "Sci-Fi", "Action")
+        );
+        // (title == 'The Shawshank Redemption' OR (year <= 2010 AND genre IN ['Sci-Fi', 'Action']))
+        Filter.Expression exp5 = builder.group(builder.or(op1, op2)).build();
+
         return vectorStore.similaritySearch(
                 SearchRequest.builder().query(genre)
-                        .topK(3)
+                        .filterExpression(exp2)
+                        .topK(10)
                         .build()
         );
     }

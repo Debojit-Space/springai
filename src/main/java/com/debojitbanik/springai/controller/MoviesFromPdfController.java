@@ -61,18 +61,4 @@ public class MoviesFromPdfController {
                 .call().content();
     }
 
-
-    public List<Document> splitByMovie(String inputText) {
-        List<Document> movies = new ArrayList<>();
-        // Split by movie starts (e.g., "Name:" or numeric prefixes like "2. Name:")
-        String[] movieEntries = inputText.split("(?=\\d+\\.\\s*Name:|Name:)");  // Regex to split before each movie start
-        for (String entry : movieEntries) {
-            if (!entry.trim().isEmpty()) {
-                // Create a Document for each movie, optionally add metadata
-                Document doc = new Document(entry.trim(), Map.of("type", "movie"));
-                movies.add(doc);
-            }
-        }
-        return movies;
-    }
 }
